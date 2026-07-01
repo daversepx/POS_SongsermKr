@@ -1,0 +1,540 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>POS ร้านเคมีเกษตร</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anuphan:wght@400;500;600;700&family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./src/styles.css">
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="login" id="loginScreen">
+  <div class="box">
+    <div class="logo"><svg class="logo-mark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path d="M12 20v-7"/><path d="M12 13c0-3.3-2.7-6-6-6 0 3.3 2.7 6 6 6Z"/><path d="M12 13c0-3.3 2.7-6 6-6 0 3.3-2.7 6-6 6Z"/></svg>ส่งเสริมการเกษตร</div>
+    <div class="tag">เข้าสู่ระบบเพื่อเริ่มขาย</div>
+    <div class="field"><label>อีเมล</label><input id="liEmail" type="email" autocomplete="username" placeholder="staff@email.com"></div>
+    <div class="field"><label>รหัสผ่าน</label><input id="liPass" type="password" autocomplete="current-password" placeholder="••••••••"></div>
+    <button id="liBtn" onclick="App.login()">เข้าสู่ระบบ</button>
+    <div class="err" id="liErr"></div>
+  </div>
+</div>
+
+<!-- APP -->
+<div class="app hidden" id="appRoot">
+  <header>
+    <div class="brand"><svg class="logo-mark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path d="M12 20v-7"/><path d="M12 13c0-3.3-2.7-6-6-6 0 3.3 2.7 6 6 6Z"/><path d="M12 13c0-3.3 2.7-6 6-6 0 3.3-2.7 6-6 6Z"/></svg>ส่งเสริมการเกษตร</div>
+    <nav>
+      <button class="active" data-view="sales" onclick="App.go('sales')">ขายสินค้า</button>
+      <button data-view="customer" onclick="App.go('customer')">ลูกค้า</button>
+      <button data-view="pickup" onclick="App.go('pickup')">รอรับสินค้า</button>
+      <button data-view="stock" onclick="App.go('stock')">สต็อกสินค้า</button>
+      <button data-view="report" onclick="App.go('report')">รายงาน</button>
+    </nav>
+    <button class="logout" onclick="App.logout()">ออกจากระบบ</button>
+  </header>
+
+  <main>
+    <!-- SALES -->
+    <section class="view active sales-layout" id="view-sales">
+      <div class="catalog sales-page">
+        <div class="page-hero sales-hero">
+          <div>
+            <div class="eyebrow">SALE</div>
+            <h1>ขายสินค้า</h1>
+            <div class="sub">ค้นหา · ยิงบาร์โค้ด · เลือกหมวดสินค้า ได้จากหน้านี้</div>
+          </div>
+          <div class="page-hero-note">เลือกสินค้าเข้าตะกร้า แล้วกดชำระเงินด้านขวา</div>
+        </div>
+
+        <section class="page-block sales-toolbar">
+          <div class="block-head compact">
+            <div>
+              <h2>ค้นหาสินค้า</h2>
+              <p>พิมพ์ชื่อสินค้า รหัสสินค้า หรือยิงบาร์โค้ด</p>
+            </div>
+          </div>
+          <div class="searchbar"><input id="search" placeholder="🔍 ค้นหาสินค้า / ยิงบาร์โค้ด (ชื่อ / รหัส)..." oninput="App.renderGrid()" onkeydown="App.searchKey(event)" onblur="App.clearSearchSoon()"></div>
+          <div class="cat-bar" id="catBar"></div>
+        </section>
+
+        <section class="page-block product-section">
+          <div class="block-head compact product-head">
+            <div>
+              <h2>รายการสินค้า</h2>
+              <p>แตะการ์ดสินค้าเพื่อเพิ่มเข้าตะกร้า</p>
+            </div>
+          </div>
+          <div class="grid" id="prodGrid"></div>
+        </section>
+
+        <nav class="quick-links">
+          <button onclick="App.go('report')"><span class="ql-ic">📊</span><span class="ql-tx"><b>รายงานการขาย</b><small>ยอดขาย · กำไร · สินค้าขายดี</small></span></button>
+          <button onclick="App.go('stock')"><span class="ql-ic">📦</span><span class="ql-tx"><b>จัดการสต็อก</b><small>เช็คสต็อก · รับเข้า · จ่ายออก</small></span></button>
+          <button onclick="App.go('customer')"><span class="ql-ic">👤</span><span class="ql-tx"><b>ลูกค้าและเครดิต</b><small>ข้อมูลลูกค้า · ยอดค้างชำระ</small></span></button>
+          <button onclick="App.go('pickup')"><span class="ql-ic">🚚</span><span class="ql-tx"><b>รอรับสินค้า</b><small>ดูรายการรอรับสินค้า</small></span></button>
+        </nav>
+      </div>
+      <aside class="cart cart-card">
+        <div class="cart-title"><h2>🧾 ตะกร้า</h2><small id="cartCount">0 รายการ</small></div>
+        <div class="cust-pick" id="custPick" onclick="App.openCustPicker()">
+          <span class="who" id="custPickText">+ เลือกลูกค้า (ไม่บังคับ)</span>
+          <span class="x hidden" id="custClear" onclick="event.stopPropagation();App.clearCust()">×</span>
+        </div>
+        <div class="items" id="cartItems"><div class="empty">ยังไม่มีสินค้า<br>แตะสินค้าหรือค้นหาเพื่อเพิ่ม</div></div>
+        <div class="checkout">
+          <div class="row"><span>จำนวนชิ้น</span><span id="sumQty">0</span></div>
+          <div class="row total"><span>ยอดรวม</span><b id="sumTotal">฿0</b></div>
+          <button class="pay-btn" id="payBtn" disabled onclick="App.openCheckout()">ชำระเงิน</button>
+        </div>
+      </aside>
+    </section>
+
+    <!-- CUSTOMER -->
+    <section class="view" id="view-customer">
+      <div class="panel-wrap work-page">
+        <div class="page-hero">
+          <div>
+            <div class="eyebrow">CUSTOMER</div>
+            <h1>ลูกค้า</h1>
+            <div class="sub" id="custSub"></div>
+          </div>
+          <div class="page-hero-note">จัดการข้อมูลลูกค้า ดูประวัติซื้อ และยอดค้างชำระ</div>
+        </div>
+
+        <section class="page-block">
+          <div class="block-head">
+            <div>
+              <h2>รายชื่อลูกค้า</h2>
+              <p>ค้นหาชื่อหรือเบอร์โทร แล้วกดแถวลูกค้าเพื่อดูรายละเอียด</p>
+            </div>
+            <div class="topsearch tidy-tools">
+              <input id="custSearch" placeholder="ค้นหาชื่อ/เบอร์..." oninput="App.renderCustomers()">
+              <button class="btn" onclick="App.openCustomer()">+ เพิ่มลูกค้า</button>
+            </div>
+          </div>
+          <div class="table-wrap"><table><thead><tr><th>ชื่อลูกค้า</th><th>เบอร์โทร</th><th>ที่อยู่/ตำบล</th><th class="num">ครั้งที่ซื้อ</th><th class="num">ยอดค้างชำระ</th></tr></thead><tbody id="custBody"></tbody></table></div>
+        </section>
+      </div>
+    </section>
+
+    <!-- PICKUP (รอรับสินค้า) -->
+    <section class="view" id="view-pickup">
+      <div class="panel-wrap work-page">
+        <div class="page-hero">
+          <div>
+            <div class="eyebrow">PICKUP</div>
+            <h1>รอรับสินค้า</h1>
+            <div class="sub" id="pickupSub"></div>
+          </div>
+          <div class="page-hero-note">ติดตามบิลที่ลูกค้าซื้อแล้ว แต่ยังรับสินค้าไม่ครบ</div>
+        </div>
+
+        <section class="page-block">
+          <div class="block-head">
+            <div>
+              <h2>รายการรอรับ</h2>
+              <p>ค้นหาจากเลขที่บิลหรือลูกค้า แล้วกดบิลเพื่อบันทึกรับสินค้า</p>
+            </div>
+            <div class="topsearch tidy-tools"><input id="pickupSearch" placeholder="ค้นหาบิล/ลูกค้า..." oninput="App.renderPickups()"></div>
+          </div>
+          <div class="table-wrap"><table><thead><tr><th>วันที่ซื้อ</th><th>เลขที่บิล</th><th>ลูกค้า</th><th>สถานะ</th><th class="num">ค้างรับ (ชิ้น)</th><th class="num">ยอดบิล</th></tr></thead><tbody id="pickupBody"></tbody></table></div>
+        </section>
+      </div>
+    </section>
+
+    <!-- STOCK -->
+    <section class="view" id="view-stock">
+      <div class="panel-wrap work-page">
+        <div class="page-hero">
+          <div>
+            <div class="eyebrow">STOCK</div>
+            <h1>สต็อกสินค้า</h1>
+            <div class="sub" id="stockSub"></div>
+          </div>
+          <div class="page-hero-note">จัดการสินค้า ราคา ต้นทุน และจำนวนคงเหลือ</div>
+        </div>
+
+        <section class="page-block">
+          <div class="block-head">
+            <div>
+              <h2>รายการสต็อก</h2>
+              <p>เลือกหมวด ค้นหา หรือกดหัวตารางเพื่อเรียงข้อมูล</p>
+            </div>
+            <div class="topsearch tidy-tools stock-tools">
+              <select id="stockCat" onchange="App.renderStock()"></select>
+              <button id="lowToggle" class="btn ghost" onclick="App.toggleLowStock()">ใกล้หมด</button>
+              <input id="stockSearch" placeholder="ค้นหาสินค้า..." oninput="App.renderStock()">
+              <button class="btn" onclick="App.openProduct()">+ เพิ่มสินค้า</button>
+            </div>
+          </div>
+          <div class="table-wrap stock-table"><table><thead><tr><th>ลำดับ</th><th>รหัส</th><th class="sortable" id="th-name" onclick="App.sortStock('name')">สินค้า<span class="sarrow"></span></th><th>หมวด</th><th class="num sortable" id="th-price" onclick="App.sortStock('price')">ราคาขาย<span class="sarrow"></span></th><th class="num">ต้นทุน</th><th class="num sortable" id="th-profit" onclick="App.sortStock('profit')">กำไร/หน่วย<span class="sarrow"></span></th><th class="num sortable" id="th-stock" onclick="App.sortStock('stock')">คงเหลือ<span class="sarrow"></span></th><th class="num">จัดการ</th></tr></thead><tbody id="stockBody"></tbody></table></div>
+        </section>
+      </div>
+    </section>
+
+    <!-- REPORT -->
+    <section class="view" id="view-report">
+      <div class="panel-wrap report-page">
+        <div class="report-hero">
+          <div>
+            <div class="eyebrow">REPORT</div>
+            <h1>รายงานร้าน</h1>
+            <div class="sub" id="reportDate"></div>
+          </div>
+          <div class="report-hero-note">ดูยอดขาย · กำไร · ค้นหาบิล · สำรองข้อมูล ในหน้าเดียว</div>
+        </div>
+
+        <section class="report-block">
+          <div class="report-block-head">
+            <div>
+              <h2>ภาพรวมวันนี้</h2>
+              <p>สรุปยอดขายและช่องทางชำระเงินประจำวัน</p>
+            </div>
+          </div>
+          <div class="cards report-kpis">
+            <div class="card main"><div class="lbl">ยอดขายวันนี้</div><div class="val acc" id="rSales">฿0</div></div>
+            <div class="card main"><div class="lbl">กำไรขั้นต้นวันนี้</div><div class="val grn" id="rProfit">฿0</div></div>
+            <div class="card"><div class="lbl">จำนวนบิล</div><div class="val" id="rBills">0</div></div>
+            <div class="card"><div class="lbl">ยอดค้างชำระทั้งร้าน</div><div class="val cr" id="rOutstanding">฿0</div></div>
+            <div class="card pay"><div class="lbl">เงินสด</div><div class="val grn" id="rCash">฿0</div></div>
+            <div class="card pay"><div class="lbl">พร้อมเพย์ QR</div><div class="val" id="rQR">฿0</div></div>
+            <div class="card pay"><div class="lbl">บัตรเกษตรกร (ธ.ก.ส.)</div><div class="val" id="rCard">฿0</div></div>
+            <div class="card pay"><div class="lbl">ขายเชื่อวันนี้</div><div class="val cr" id="rCredit">฿0</div></div>
+          </div>
+        </section>
+
+        <div class="report-split">
+          <section class="report-block">
+            <div class="report-block-head">
+              <div>
+                <h2>รายงานรายเดือน</h2>
+                <p>เลือกเดือนเพื่อดูยอดขายและกำไรรวม</p>
+              </div>
+              <div class="report-tools">
+                <input class="report-control" type="month" id="sumMonth" onchange="App.loadMonthlySummary()">
+                <button class="btn ghost" onclick="App.printMonthlySummary()">พิมพ์รายเดือน</button>
+                <button class="btn ghost" onclick="App.exportMonthlySummary()">⬇ CSV</button>
+              </div>
+            </div>
+            <div id="monthReportBox" class="month-report" style="display:none">
+              <div class="month-label" id="monthReportLabel"></div>
+              <div class="cards month-kpis">
+                <div class="card"><div class="lbl">ยอดขายรวม</div><div class="val acc" id="mTotSales">฿0</div></div>
+                <div class="card"><div class="lbl">กำไรขั้นต้น</div><div class="val grn" id="mTotProfit">฿0</div></div>
+                <div class="card"><div class="lbl">จำนวนบิล</div><div class="val" id="mTotBills">0 บิล</div></div>
+                <div class="card"><div class="lbl">เงินสด</div><div class="val" id="mCash">฿0</div></div>
+                <div class="card"><div class="lbl">พร้อมเพย์ QR</div><div class="val" id="mQR">฿0</div></div>
+                <div class="card"><div class="lbl">บัตรเกษตรกร</div><div class="val" id="mCard">฿0</div></div>
+                <div class="card"><div class="lbl">ขายเชื่อ</div><div class="val cr" id="mCredit">฿0</div></div>
+              </div>
+            </div>
+            <div class="empty month-empty">เลือกเดือนด้านบนเพื่อดูสรุปรายเดือน</div>
+          </section>
+
+          <section class="report-block report-backup">
+            <div class="report-block-head">
+              <div>
+                <h2>สำรองข้อมูล</h2>
+                <p>ส่งออกเป็นไฟล์ CSV เปิดด้วย Excel ได้ ควรเก็บสำรองเป็นระยะ</p>
+              </div>
+            </div>
+            <div class="backup-actions">
+              <button class="btn ghost" onclick="App.exportProducts()">⬇ ส่งออกสินค้า (CSV)</button>
+              <button class="btn ghost" onclick="App.exportSales()">⬇ ส่งออกการขาย (CSV)</button>
+            </div>
+          </section>
+        </div>
+
+        <section class="report-block">
+          <div class="report-block-head">
+            <div>
+              <h2>สรุปสินค้าที่ขายรายวัน</h2>
+              <p>เลือกวันที่เพื่อดู/พิมพ์ย้อนหลัง</p>
+            </div>
+            <div class="report-tools">
+              <input class="report-control" type="date" id="sumDate" onchange="App.loadDaySummary()">
+              <button class="btn ghost" onclick="App.printDaySummary()">พิมพ์สรุป</button>
+              <button class="btn ghost" onclick="App.exportDaySummary()">⬇ ส่งออก CSV</button>
+            </div>
+          </div>
+          <div class="report-table-wrap">
+            <table><thead><tr><th>อันดับ</th><th>สินค้า</th><th class="num">ขายได้ (ชิ้น)</th><th class="num">เป็นเงิน</th><th class="num">กำไร</th></tr></thead><tbody id="topBody"></tbody></table>
+          </div>
+        </section>
+
+        <div class="report-split wide-left">
+          <section class="report-block">
+            <div class="report-block-head">
+              <div>
+                <h2>ค้นหา / พิมพ์ซ้ำใบเสร็จ</h2>
+                <p>ค้นหาบิลย้อนหลังเพื่อพิมพ์ซ้ำ ออกใบกำกับภาษี หรือยกเลิกบิล</p>
+              </div>
+              <div class="report-tools search-tool">
+                <input class="report-control" id="billSearch" placeholder="เลขที่บิล / ชื่อลูกค้า..." oninput="App.searchBills()">
+              </div>
+            </div>
+            <div class="report-table-wrap compact-table">
+              <table><thead><tr><th>วันที่</th><th>เลขที่บิล</th><th>ลูกค้า</th><th>วิธีจ่าย</th><th class="num">ยอด</th></tr></thead><tbody id="searchBody"></tbody></table>
+            </div>
+          </section>
+
+          <section class="report-block">
+            <div class="report-block-head">
+              <div>
+                <h2>บิลวันนี้</h2>
+                <p>คลิกบิลเพื่อพิมพ์ซ้ำหรือจัดการบิล</p>
+              </div>
+            </div>
+            <div class="report-table-wrap compact-table">
+              <table><thead><tr><th>เวลา</th><th>เลขที่บิล</th><th>ลูกค้า</th><th>วิธีจ่าย</th><th class="num">ชิ้น</th><th class="num">ยอด</th></tr></thead><tbody id="billBody"></tbody></table>
+            </div>
+          </section>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="app-foot">
+    <span class="foot-shop"><svg class="logo-mark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path d="M12 20v-7"/><path d="M12 13c0-3.3-2.7-6-6-6 0 3.3 2.7 6 6 6Z"/><path d="M12 13c0-3.3 2.7-6 6-6 0 3.3-2.7 6-6 6Z"/></svg><b id="footShopName">ส่งเสริมการเกษตร</b></span>
+    <span class="foot-sep">|</span>
+    <span id="footPhone"></span>
+    <span class="foot-gap"></span>
+    <span id="footClock" class="foot-clock"></span>
+    <span id="footOnline" class="foot-online"><i class="dot"></i><span class="ol-txt">ออนไลน์</span></span>
+  </footer>
+</div>
+
+<!-- CHECKOUT MODAL -->
+<div class="overlay" id="checkoutOverlay">
+  <div class="modal">
+    <h3>ชำระเงิน</h3>
+    <div class="msub" id="coCustLine">ลูกค้าทั่วไป</div>
+    <div class="big-amt"><div class="l">ยอดที่ต้องชำระ</div><div class="v" id="coTotal">฿0</div></div>
+    <div class="paytype">
+      <button id="ptCash" class="sel" onclick="App.setPayType('cash')">💵 เงินสด</button>
+      <button id="ptPromptpay" onclick="App.setPayType('promptpay')">📱 พร้อมเพย์ QR</button>
+      <button id="ptCard" onclick="App.setPayType('farmer_card')">💳 บัตรเกษตรกร</button>
+      <button id="ptCredit" onclick="App.setPayType('credit')">📒 ขายเชื่อ</button>
+    </div>
+
+    <div class="fulfill">
+      <div class="fl-label">การรับสินค้า</div>
+      <div class="fl-opts">
+        <button id="flNow" class="sel" onclick="App.setFulfill('immediate')">รับเลย</button>
+        <button id="flLater" onclick="App.setFulfill('deferred')">รับภายหลัง</button>
+      </div>
+    </div>
+    <div id="cashBox">
+      <div class="field"><label>รับเงินมา (บาท)</label><input type="number" id="received" inputmode="decimal" placeholder="0" oninput="App.calcChange()"></div>
+      <div class="quickpay" id="quickpay"></div>
+      <div class="change-line" id="changeLine"><span>เงินทอน</span><b id="changeVal">฿0</b></div>
+    </div>
+
+    <div id="promptpayBox" class="hidden">
+      <div class="qr-wrap">
+        <img id="qrImg" alt="PromptPay QR">
+        <div class="qr-amt" id="qrAmt"></div>
+        <div class="qr-hint">ให้ลูกค้าสแกนเพื่อชำระ แล้วกดยืนยันเมื่อได้รับเงิน</div>
+      </div>
+      <div class="field"><label>เลขอ้างอิงสลิป (ไม่บังคับ)</label><input id="ppRef" placeholder="เลขอ้างอิงจากสลิป"></div>
+    </div>
+
+    <div id="cardBox" class="hidden">
+      <div class="card-note">รูดบัตรสินเชื่อเกษตรกร (ธ.ก.ส.) ที่เครื่อง EDC แล้วกดยืนยันเมื่อรายการอนุมัติ</div>
+      <div class="field"><label>เลขอนุมัติ/เลขสลิป (ไม่บังคับ)</label><input id="cardRef" placeholder="เลขอนุมัติจากเครื่อง EDC"></div>
+    </div>
+
+    <div id="creditBox" class="hidden"><div class="credit-note" id="creditNote"></div></div>
+
+    <div class="modal-actions">
+      <button class="btn ghost" onclick="App.closeCheckout()">ยกเลิก</button>
+      <button class="btn" id="confirmBtn" onclick="App.confirmSale()">ยืนยัน + ปริ้นใบเสร็จ</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- HELD CARTS MODAL -->
+<div class="overlay" id="heldCartsOverlay">
+  <div class="modal wide">
+    <h3>ตะกร้าที่พักไว้</h3>
+    <div class="msub">เลือกตะกร้าที่พักไว้เพื่อเรียกคืนมาขายต่อ หรือพักตะกร้าปัจจุบันไว้ก่อนขายคนถัดไป</div>
+    <div class="heldcart-list" id="heldCartsList"></div>
+    <div class="modal-actions" style="margin-top:16px">
+      <button class="btn ghost" onclick="App.closeHeldCarts()">ปิด</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="custPickerOverlay">
+  <div class="modal">
+    <h3>เลือกลูกค้า</h3>
+    <div class="msub">ผูกบิลนี้กับลูกค้า เพื่อเก็บประวัติและขายเชื่อ</div>
+    <div class="field" style="position:relative">
+      <input id="pickerSearch" placeholder="🔍 พิมพ์ชื่อ หรือเบอร์โทร..." oninput="App.renderPicker()" autofocus
+        style="font-size:16px;padding:12px 14px;width:100%">
+    </div>
+    <div class="picklist" id="pickerList"></div>
+    <div class="modal-actions">
+      <button class="btn ghost" onclick="App.closeCustPicker()">ปิด</button>
+      <button class="btn" onclick="App.openCustomer(null,true)">+ ลูกค้าใหม่</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="customerOverlay">
+  <div class="modal">
+    <h3 id="custModalTitle">เพิ่มลูกค้า</h3><div class="msub">&nbsp;</div>
+    <div class="field"><label>ชื่อ-นามสกุล</label><input id="cName" placeholder="เช่น สมชาย ใจดี"></div>
+    <div class="grid2">
+      <div class="field"><label>เบอร์โทร</label><input id="cPhone" inputmode="tel" placeholder="08x-xxx-xxxx"></div>
+      <div class="field"><label>ตำบล/อำเภอ</label><input id="cArea" placeholder="เช่น ต.หนองโพ"></div>
+    </div>
+    <div class="field"><label>หมายเหตุ</label><input id="cNote" placeholder="เช่น ปลูกข้าว 20 ไร่"></div>
+    <div class="modal-actions">
+      <button class="btn ghost" onclick="App.closeCustomer()">ยกเลิก</button>
+      <button class="btn" onclick="App.saveCustomer()">บันทึก</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="custDetailOverlay">
+  <div class="modal wide">
+    <h3 id="cdName"></h3><div class="msub" id="cdMeta"></div>
+    <div class="cards" style="grid-template-columns:1fr 1fr; gap:12px; margin-bottom:18px">
+      <div class="card"><div class="lbl">ยอดซื้อสะสม</div><div class="val acc" id="cdTotal">฿0</div></div>
+      <div class="card"><div class="lbl">ยอดค้างชำระ</div><div class="val cr" id="cdOwe">฿0</div></div>
+    </div>
+
+    <!-- บิลค้างชำระรายบิล -->
+    <div id="cdCreditBox" style="display:none; margin-bottom:16px">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px">
+        <span style="font-size:15px; font-weight:600">บิลค้างชำระ</span>
+        <div style="display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end">
+          <button class="btn ghost" style="font-size:12px;padding:5px 12px" onclick="App.selectAllBills()">เลือกทั้งหมด</button>
+          <button class="btn ghost" style="font-size:12px;padding:5px 12px" onclick="App.printCreditStatement()">🖨 ใบแจกแจงยอดค้าง</button>
+        </div>
+      </div>
+      <div id="cdCreditBills"></div>
+      <div id="cdPayBox" style="display:none; margin-top:10px; padding:12px 14px; background:var(--bg2); border-radius:8px; border:1px solid var(--line)">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px">
+          <span style="font-size:13px; color:var(--muted)">ยอดที่เลือก</span>
+          <span id="cdSelAmt" style="font-size:18px; font-weight:700; font-family:var(--font)">฿0</span>
+        </div>
+        <div style="display:flex; gap:10px; align-items:flex-end; flex-wrap:wrap">
+          <div class="field" style="flex:1; min-width:160px; margin-bottom:0"><label>รับชำระ (บาท)</label><input type="number" id="cdPayAmt" inputmode="decimal" placeholder="0.00"></div>
+          <button class="btn" style="padding:11px 18px; white-space:nowrap; height:42px" onclick="App.recordPayment()">บันทึกรับชำระ</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="ph" style="margin:14px 0 4px"><h1 style="font-size:16.5px">ประวัติการซื้อ</h1></div>
+    <div class="hist" id="cdHist"></div>
+    <div class="modal-actions" style="margin-top:18px">
+      <button class="btn ghost" onclick="App.deleteCurrentCustomer()" style="color:#c0392b;border-color:#e6b3ab">ลบลูกค้า</button>
+      <button class="btn ghost" onclick="App.closeCustDetail()">ปิด</button>
+      <button class="btn" onclick="App.editCurrentCustomer()">แก้ไขข้อมูล</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="productOverlay">
+  <div class="modal">
+    <h3 id="prodModalTitle">เพิ่มสินค้า</h3><div class="msub">ทิป: ถ้าเป็นสินค้าขายยกลัง ให้ใส่คำว่า “ยกลัง” ในชื่อ/หน่วย/หมวดสินค้า ระบบจะโชว์ป้ายเฉพาะสินค้ายกลัง</div>
+    <div class="field"><label>ชื่อสินค้า</label><input id="pName" placeholder="เช่น อะบาเม็กติน 1 ลิตร / อะบาเม็กติน 1 ลิตร ยกลัง"></div>
+    <div class="grid2">
+      <div class="field"><label>รหัส/บาร์โค้ด</label><input id="pCode" placeholder="เช่น FRT-001"></div>
+      <div class="field"><label>หมวดหมู่</label><input id="pCat" placeholder="เช่น ยกลัง / ปุ๋ย / ยาฆ่าแมลง"></div>
+    </div>
+    <div class="grid2">
+      <div class="field"><label>ราคาขาย (บาท)</label><input id="pPrice" type="number" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><label>ต้นทุน (บาท)</label><input id="pCost" type="number" inputmode="decimal" placeholder="0"></div>
+    </div>
+    <div class="grid2">
+      <div class="field"><label>หน่วย</label><input id="pUnit" placeholder="ขวด / ลัง / กระสอบ"></div>
+      <div class="field"><label>จำนวนคงเหลือ</label><input id="pStock" type="number" inputmode="numeric" placeholder="0"></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn ghost" onclick="App.closeProduct()">ยกเลิก</button>
+      <button class="btn" onclick="App.saveProduct()">บันทึก</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="pickupOverlay">
+  <div class="modal wide">
+    <h3 id="puTitle">บันทึกรับสินค้า</h3>
+    <div class="msub" id="puMeta"></div>
+    <table style="margin-bottom:14px"><thead><tr><th>สินค้า</th><th class="num">สั่งซื้อ</th><th class="num">รับแล้ว</th><th class="num">คงเหลือ</th><th class="num">รับครั้งนี้</th></tr></thead><tbody id="puBody"></tbody></table>
+    <div class="modal-actions">
+      <button class="btn ghost" onclick="App.closePickup()">ปิด</button>
+      <button class="btn ghost" onclick="App.fillAllPickup()">รับครบทั้งหมด</button>
+      <button class="btn" onclick="App.savePickup()">บันทึก + พิมพ์ใบส่งมอบ</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="saleActionsOverlay">
+  <div class="modal">
+    <h3>จัดการบิล</h3>
+    <div class="msub" id="saTitle"></div>
+    <div class="hist" id="saInfo"></div>
+    <div class="modal-actions" style="margin-top:16px">
+      <button class="btn ghost" onclick="App.closeSaleActions()">ปิด</button>
+      <button class="btn ghost" onclick="App.reprintSale()">พิมพ์ซ้ำ</button>
+      <button class="btn ghost" id="saTaxBtn" onclick="App.openTaxInvoice()">ใบกำกับภาษี/ใบเสร็จรับเงิน</button>
+      <button class="btn" id="saVoidBtn" onclick="App.voidSale()">ยกเลิกบิล</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="receiptOverlay">
+  <div class="receipt-modal">
+    <div class="receipt-paper"><div id="receipt"><div class="rcpt" id="rcptContent"></div></div></div>
+    <div class="receipt-actions">
+      <button class="btn ghost" onclick="App.closeReceipt()">เสร็จสิ้น</button>
+      <button class="btn" onclick="window.print()">พิมพ์ใบเสร็จ</button>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<!-- Modal ใบกำกับภาษี/ใบเสร็จรับเงิน -->
+<div class="overlay" id="taxInvoiceOverlay">
+  <div class="modal wide">
+    <h3>ออกใบกำกับภาษี/ใบเสร็จรับเงิน</h3>
+    <div class="msub">กรอกข้อมูลผู้ซื้อเพื่อออกใบกำกับภาษี/ใบเสร็จรับเงิน</div>
+    <div class="field">
+      <label>ชื่อบริษัท / ชื่อผู้ซื้อ <span style="color:var(--danger)">*</span></label>
+      <input id="taxBuyerName" placeholder="เช่น บริษัท เกษตรดี จำกัด หรือ นายสมชาย ใจดี">
+    </div>
+    <div class="field">
+      <label>ที่อยู่ผู้ซื้อ <span style="color:var(--danger)">*</span></label>
+      <textarea id="taxBuyerAddr" rows="3"
+        placeholder="เลขที่ ซอย ถนน ตำบล/แขวง อำเภอ/เขต จังหวัด รหัสไปรษณีย์"
+        style="width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:10px;font-family:var(--font);font-size:15px;resize:vertical;background:var(--surface);color:var(--txt)"></textarea>
+    </div>
+    <div class="grid2">
+      <div class="field">
+        <label>เลขประจำตัวผู้เสียภาษี</label>
+        <input id="taxBuyerTaxId" placeholder="13 หลัก (ถ้ามี)" maxlength="13" inputmode="numeric">
+      </div>
+      <div class="field">
+        <label>สาขาที่ / Branch</label>
+        <input id="taxBuyerBranch" placeholder="สำนักงานใหญ่ / 00001 (ถ้าต้องการ)">
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn ghost" onclick="App.closeTaxInvoice()">ยกเลิก</button>
+      <button class="btn" onclick="App.printTaxInvoice()">🖨 พิมพ์ใบกำกับภาษี/ใบเสร็จรับเงิน</button>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="./src/app.js"></script>
+</body>
+</html>

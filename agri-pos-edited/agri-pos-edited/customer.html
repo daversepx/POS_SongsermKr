@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>จอลูกค้า — ส่งเสริมการเกษตร</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --grn:#2d8a37; --grn2:#1f6e28; --grnDark:#16531f;
+    --amber:#d9a02b; --cream:#f7f4ec; --ink:#1c2a20;
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html,body{ height:100%; }
+  body{
+    font-family: 'Google Sans', 'Noto Sans Thai', sans-serif; color:var(--ink);
+    background:var(--cream);
+    height:100vh; display:flex; flex-direction:column; overflow:hidden;
+  }
+  /* หัวจอ */
+  header{
+    background:linear-gradient(135deg,var(--grn2),var(--grnDark));
+    color:#fff; padding:18px 30px; display:flex; align-items:center; gap:14px; flex:0 0 auto;
+  }
+  header .logo{ width:42px; height:42px; flex:0 0 auto; }
+  header h1{ font-weight:600; font-size:25px; letter-spacing:.5px; }
+  header .sub{ margin-left:auto; font-size:16px; opacity:.85; }
+
+  main{ flex:1 1 auto; display:flex; flex-direction:column; min-height:0; padding:0 30px; }
+
+  /* ---------- หน้าต้อนรับ ---------- */
+  .welcome{ flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:20px; }
+  .welcome .big-logo{ width:118px; height:118px; opacity:.92; }
+  .welcome h2{ font-size:38px; color:var(--grn2); font-weight:600; }
+  .welcome p{ font-size:20px; color:#5a6a5f; margin: 0; }
+
+  /* ---------- รายการสินค้า ---------- */
+  .cart-wrap{ flex:1; display:flex; flex-direction:column; min-height:0; padding:18px 0; }
+  .cart-head{ display:flex; justify-content:space-between; font-size:17px; color:#6a7a6f; font-weight:600; padding:0 6px 10px; border-bottom:2px solid #e2e7df; }
+  .items{ flex:1; overflow-y:auto; padding:4px 0; }
+  .item{ display:flex; align-items:center; gap:14px; padding:11px 6px; border-bottom:1px solid #ebeee8; }
+  .item .nm{ flex:1; font-size:21px; font-weight:500; }
+  .item .qp{ font-size:16px; color:#7a8a7f; min-width:150px; text-align:right; }
+  .item .lt{ font-size:22px; font-weight:700; color:var(--grn2); min-width:130px; text-align:right; }
+  .item.flash{ animation:flash .6s ease; }
+  @keyframes flash{ from{ background:#fff7e6; } to{ background:transparent; } }
+
+  /* แถบยอดรวม */
+  .totalbar{
+    flex:0 0 auto; background:var(--grn2); color:#fff; border-radius:18px;
+    margin:14px 0 18px; padding:18px 30px; display:flex; align-items:center; justify-content:space-between;
+  }
+  .totalbar .lbl{ font-size:24px; font-weight:600; }
+  .totalbar .amt{ font-size:44px; font-weight:700; }
+
+  /* ---------- QR ชำระเงิน ---------- */
+  .qr-wrap{ flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; padding:14px 0 26px; }
+  .qr-wrap .pp{ display:flex; align-items:center; gap:10px; color:#103a86; font-weight:700; font-size:20px; }
+  .qr-wrap .pp .dot{ width:26px; height:26px; border-radius:6px; background:#103a86; color:#fff; display:flex; align-items:center; justify-content:center; font-size:16px; }
+  .qr-box{ background:#fff; padding:18px; border-radius:20px; box-shadow:0 14px 36px -16px rgba(0,0,0,.3); }
+  .qr-box img{ width:290px; height:290px; display:block; }
+  .qr-wrap .scan{ font-size:24px; font-weight:600; color:var(--grn2); }
+  .qr-wrap .amt{ font-size:40px; font-weight:700; color:var(--ink); }
+  .qr-wrap .hint{ font-size:16px; color:#7a8a7f; }
+
+  /* ---------- ขอบคุณ ---------- */
+  .thanks{ flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:18px; }
+  .thanks .ic{ font-size:72px; }
+  .thanks h2{ font-size:42px; color:var(--grn2); font-weight:700; }
+  .thanks p{ font-size:20px; color:#5a6a5f; }
+
+  .hide{ display:none !important; }
+
+  /* แจ้งเตือนถ้าเบราว์เซอร์ไม่รองรับ */
+  .nosupport{ position:fixed; inset:0; background:#fff; display:flex; align-items:center; justify-content:center; text-align:center; padding:40px; font-size:22px; color:#b23; }
+</style>
+</head>
+<body>
+  <header>
+    <svg class="logo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20v-7"/><path d="M12 13c0-3.3-2.7-6-6-6 0 3.3 2.7 6 6 6Z"/><path d="M12 13c0-3.3 2.7-6 6-6 0 3.3-2.7 6-6 6Z"/></svg>
+    <h1><span id="shopName">ร้านส่งเสริมการเกษตร</span> | โทร 086-678-8906</h1>
+    <span class="sub" id="clock"></span>
+  </header>
+
+  <main>
+    <section class="welcome" id="vWelcome">
+      <img src="logo.png" alt="โลโก้ร้านส่งเสริมการเกษตร" style="width: 900px; max-width: 90%; margin-bottom: 16px; mix-blend-mode: multiply;">
+      
+      <h2>ยินดีต้อนรับลูกค้าทุกท่าน</h2>
+      <p>ทางร้านรับชำระด้วย</p>
+      <p>เงินสด | QR พร้อมเพย์ | บัตรสินเชื่อเกษตรกร | ไทยช่วยไทยพลัส</p>
+    </section>
+
+    <section class="cart-wrap hide" id="vCart">
+      <div class="cart-head"><span>รายการสินค้า</span><span id="cartCount"></span></div>
+      <div class="items" id="items"></div>
+      <div class="totalbar"><span class="lbl">รวมทั้งสิ้น</span><span class="amt" id="total">฿0</span></div>
+    </section>
+
+    <section class="qr-wrap hide" id="vQR">
+      <div class="pp"><span class="dot">฿</span><span>พร้อมเพย์ / PromptPay</span></div>
+      <div class="qr-box"><img id="qrImg" alt="QR พร้อมเพย์"></div>
+      <div class="scan">สแกนเพื่อชำระเงิน</div>
+      <div class="amt" id="qrAmt">฿0</div>
+      <div class="hint">กรุณาตรวจสอบยอดชำระก่อนกดยืนยัน</div>
+    </section>
+
+    <!-- ส่วนที่แก้ไขแล้ว: เปลี่ยน id เป็น vThanks และ class เป็น thanks hide -->
+    <section class="thanks hide" id="vThanks">
+      <img src="logo.png" alt="โลโก้ร้านส่งเสริมการเกษตร" style="width: 900px; max-width: 90%; margin-bottom: 16px; mix-blend-mode: multiply;">
+      
+      <h2>ชำระเงินเรียบร้อยแล้ว</h2>    
+      <p>ขอบพระคุณที่ไว้วางใจ โอกาสหน้าเชิญใหม่นะคะ</p>
+    </section>
+
+  </main>
+
+  <div class="nosupport hide" id="noSupport">
+  </div>
+
+<script type="module">
+  // ดึงฟังก์ชันฟังเสียงจากระบบฐานข้อมูลมาใช้งานโดยตรง
+  import { listenToCustomerDisplay, requestCustomerSync } from "./src/db.js";
+
+  // ดึงชื่อร้านจาก config (ให้ตรงกับแอป)
+  try {
+    const { SHOP } = await import("./src/config.js");
+    if (SHOP && SHOP.name) document.getElementById("shopName").textContent = SHOP.name;
+  } catch (e) { /* ใช้ค่าเริ่มต้นในหน้า */ }
+
+  const baht = (n) => "฿" + Number(n || 0).toLocaleString("th-TH");
+  const $ = (id) => document.getElementById(id);
+  const views = { welcome: $("vWelcome"), cart: $("vCart"), qr: $("vQR"), thanks: $("vThanks") };
+  function show(name) {
+    for (const k in views) views[k].classList.toggle("hide", k !== name);
+  }
+
+  // นาฬิกา 
+  function tick() {
+    const d = new Date();
+    $("clock").textContent = d.toLocaleString("th-TH", { 
+      day: "numeric", 
+      month: "short", 
+      year: "numeric", 
+      hour: "2-digit", 
+      minute: "2-digit" 
+    });
+  }
+  tick(); setInterval(tick, 15000);
+
+  let thanking = false;
+
+  function renderCart(items, total) {
+    if (!items || !items.length) { show("welcome"); return; }
+    $("cartCount").textContent = items.length + " รายการ";
+    $("items").innerHTML = items.map((i) => `
+      <div class="item">
+        <div class="nm">${i.name}</div>
+        <div class="qp">${baht(i.price)} × ${i.qty}${i.unit ? " " + i.unit : ""}</div>
+        <div class="lt">${baht(i.price * i.qty)}</div>
+      </div>`).join("");
+    $("total").textContent = baht(total);
+    show("cart");
+  }
+
+  // เปลี่ยนมารับข้อมูลจาก Supabase แทน
+  try {
+    listenToCustomerDisplay((m) => {
+      if (!m) return;
+      if (m.type === "done") {
+        thanking = true; show("thanks");
+        setTimeout(() => { thanking = false; show("welcome"); }, 4500);
+        return;
+      }
+      if (thanking) return; // ระหว่างโชว์ขอบคุณ ไม่ต้องสลับจอ
+      if (m.type === "qr") {
+        $("qrImg").src = m.img || "";
+        $("qrAmt").textContent = baht(m.total);
+        show("qr");
+      } else if (m.type === "cart") {
+        renderCart(m.items, m.total);
+      }
+    });
+    
+    show("welcome");
+    requestCustomerSync();   // ขอสถานะตะกร้าปัจจุบันทันทีที่เปิดจอ
+  } catch(e) {
+    $("noSupport").classList.remove("hide");
+    $("noSupport").innerHTML = "เกิดข้อผิดพลาด ไม่สามารถเชื่อมต่อกับฐานข้อมูลเรียลไทม์ได้<br>โปรดรีเฟรชหน้าเว็บ หรือตรวจสอบอินเทอร์เน็ต";
+  }
+
+</script>
+</body>
+</html>
