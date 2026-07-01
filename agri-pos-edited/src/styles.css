@@ -1,0 +1,791 @@
+/* ============================================================
+   ดึงฟอนต์ Noto Sans Thai (สไตล์เดียวกับ Google Sans) จาก Google Fonts
+   ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap');
+
+/* ============================================================
+   ส่งเสริมการเกษตร POS — Soft Daylight Theme (โทนสว่าง)
+   ============================================================ */
+:root{
+  /* โทนหลัก: เขียว/ขาว สะอาด อ่านง่าย — สีอื่น (แดง/ส้ม/ฟ้า) ใช้เฉพาะปุ่ม/ป้ายที่ต้องการความสังเกตเห็นง่าย */
+  --bg:#ffffff; --bg2:#f3f8f0;
+  --surface:#ffffff; --surface2:#fbfdf8; --elev:#eef5e9;
+  --line:rgba(30,80,40,.11); --line2:rgba(30,80,40,.20);
+  --txt:#182620; --muted:#5c6d61; --faint:#93a397;
+  --grn:#2d8a37; --grn2:#1f6e28; --grn-ink:#ffffff;
+  --gold:#b07d08; --orange:#dd7a1f; --blue:#2f72c4; --red:#d63a30;
+  --accent:var(--grn2); --danger:var(--red);
+  --chip:#e9f2e3;
+  --sh1:0 1px 2px rgba(24,38,32,.06);
+  --sh2:0 18px 38px -20px rgba(24,45,32,.22);
+  --glow:0 12px 26px -12px rgba(28,108,40,.50);
+  --r:16px;
+
+  /* ตั้งค่า Google Sans และ Noto Sans Thai เป็นฟอนต์หลักของทั้งระบบ */
+  --font: 'Google Sans', 'Noto Sans Thai', sans-serif;
+}
+
+*{box-sizing:border-box; margin:0; padding:0}
+html,body{height:100%}
+body{
+  font-family:var(--font); color:var(--txt); font-size:15.5px;
+  background:var(--bg); overflow:hidden;
+  background-image:
+    radial-gradient(1000px 560px at 8% -12%, rgba(45,138,55,.06), transparent 60%),
+    linear-gradient(180deg,#ffffff,#f6faf3);
+  -webkit-font-smoothing:antialiased;
+}
+button{font-family:inherit; cursor:pointer; border:none; color:inherit; background:none}
+input,select{font-family:inherit}
+::selection{background:rgba(58,157,63,.22)}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-thumb{background:rgba(34,64,38,.18); border-radius:20px; border:2px solid transparent; background-clip:padding-box}
+::-webkit-scrollbar-thumb:hover{background:rgba(34,64,38,.30); background-clip:padding-box}
+.app{display:flex; flex-direction:column; height:100vh}
+.hidden{display:none !important}
+
+/* ---------- LOGIN ---------- */
+.login{position:fixed; inset:0; display:flex; align-items:center; justify-content:center; padding:20px; z-index:80;
+  background:radial-gradient(700px 500px at 50% -10%, rgba(80,180,90,.16), transparent 60%)}
+.login .box{
+  position:relative; width:100%; max-width:392px; padding:36px 32px 30px;
+  background:var(--surface); border:1px solid var(--line); border-radius:24px; box-shadow:var(--sh2);
+  animation:pop .5s cubic-bezier(.2,.9,.3,1.3) both;
+}
+.login .box::before{content:""; position:absolute; inset:0 0 auto 0; height:3px; border-radius:24px 24px 0 0;
+  background:linear-gradient(90deg,transparent,var(--grn),transparent)}
+.login .logo{font-family:var(--font); font-weight:700; font-size:29.5px; text-align:center; letter-spacing:.2px}
+.login .logo .logo-mark{width:44px; height:44px; color:var(--grn); display:block; margin:0 auto 10px}
+.login .logo span{color:var(--grn)}
+.login .tag{text-align:center; color:var(--muted); font-size:14.5px; margin:6px 0 26px}
+.login .field{margin-bottom:14px}
+.login label{display:block; font-size:14px; color:var(--muted); margin-bottom:7px; font-weight:500}
+.login input{width:100%; padding:13px 15px; background:var(--bg2); border:1px solid var(--line); border-radius:12px; color:var(--txt); font-size:16.5px; transition:.18s}
+.login input:focus{outline:none; border-color:var(--grn2); box-shadow:0 0 0 4px rgba(58,157,63,.14)}
+.login button{width:100%; padding:14px; margin-top:8px; border-radius:13px; font-weight:700; font-size:17.5px;
+  color:var(--grn-ink); background:linear-gradient(180deg,#2f9138,#196b24); box-shadow:var(--glow); transition:.16s}
+.login button:hover{filter:brightness(1.04); transform:translateY(-1px)}
+.login button:disabled{opacity:.6; cursor:wait; transform:none}
+.login .err{color:var(--red); font-size:14.5px; margin-top:13px; text-align:center; min-height:18px}
+
+/* ---------- HEADER (แถบเขียวเข้ม) ---------- */
+header{display:flex; align-items:center; gap:18px; padding:13px 22px; flex:none;
+  background:linear-gradient(100deg,#1c6e27,#123f19); border-bottom:1px solid rgba(0,0,0,.10); box-shadow:0 6px 20px -12px rgba(20,70,30,.55); z-index:10}
+.brand{font-family:var(--font); font-weight:700; font-size:22px; letter-spacing:.3px; color:#fff; display:flex; align-items:center; gap:10px}
+.brand .logo-mark{width:26px; height:26px; color:#fff; flex:none}
+.clock{color:rgba(255,255,255,.82); font-family:var(--font); font-size:14px; letter-spacing:.3px}
+nav{margin-left:auto; display:flex; gap:4px; background:rgba(255,255,255,.15); padding:5px; border-radius:14px; border:1px solid rgba(255,255,255,.22)}
+nav button{padding:9px 16px; border-radius:10px; font-weight:600; font-size:15px; color:rgba(255,255,255,.88); transition:.16s}
+nav button.active{color:var(--grn2); background:#fff; box-shadow:0 4px 12px -4px rgba(0,0,0,.28)}
+nav button:not(.active):hover{color:#fff; background:rgba(255,255,255,.14)}
+.logout{margin-left:6px; padding:9px 15px; border-radius:11px; background:rgba(255,255,255,.16); color:#fff; font-size:14.5px; font-weight:600; border:1px solid rgba(255,255,255,.3); transition:.16s}
+.logout:hover{background:rgba(255,255,255,.26); color:#fff; border-color:rgba(255,255,255,.45)}
+main{flex:1; overflow:hidden; display:flex}
+.view{display:none; width:100%; height:100%}
+.view.active{display:flex; animation:fade .3s ease both}
+
+/* ---------- CATALOG ---------- */
+.catalog{flex:1; overflow-y:auto; padding:20px; display:flex; flex-direction:column}
+.searchbar{display:flex; gap:10px; margin-bottom:16px}
+.searchbar input{flex:1; padding:13px 18px; background:var(--surface); border:1px solid var(--line); border-radius:14px; color:var(--txt); font-size:16.5px; box-shadow:var(--sh1); transition:.18s}
+.searchbar input:focus{outline:none; border-color:var(--grn2); box-shadow:0 0 0 4px rgba(58,157,63,.12)}
+.cat-bar{display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap}
+.cat-bar button{display:inline-flex; align-items:center; gap:6px; padding:7px 15px; border-radius:20px; background:var(--surface); color:var(--muted); font-size:14px; font-weight:600; border:1px solid var(--line); transition:.15s}
+.cat-bar button .ci{font-size:15px; line-height:1}
+.cat-bar button:hover{color:var(--txt); border-color:var(--line2)}
+.cat-bar button.active{background:var(--grn2); color:#fff; border-color:var(--grn2)}
+.grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(164px,1fr)); gap:13px; align-content:start; flex:1}
+.prod{position:relative; min-height:112px; display:flex; flex-direction:column; text-align:left; padding:34px 14px 13px; border-radius:var(--r);
+  background:var(--surface); border:1px solid var(--line); box-shadow:var(--sh1);
+  transition:transform .16s cubic-bezier(.2,.8,.3,1), border-color .16s, box-shadow .16s}
+.prod::before{content:""; position:absolute; left:0; top:14px; bottom:14px; width:3px; border-radius:3px; background:linear-gradient(180deg,var(--grn),var(--grn2)); opacity:0; transition:.16s}
+.prod:hover{transform:translateY(-4px); border-color:var(--line2); box-shadow:var(--sh2)}
+.prod:hover::before{opacity:1}
+.prod.out{opacity:.45; pointer-events:none}
+.prod .nm{font-weight:600; font-size:15.5px; line-height:1.32; flex:1; padding-left:6px}
+.prod .pr{font-family:var(--font); font-weight:700; font-size:20px; color:var(--grn); margin-top:8px; padding-left:6px}
+.prod .pr small{color:var(--muted); font-size:12px; font-weight:500; font-family:var(--font)}
+.prod .stk{position:absolute; top:11px; right:11px; font-size:12.5px; color:var(--muted); background:var(--chip); padding:3px 8px; border-radius:9px; border:1px solid var(--line)}
+.prod .stk.low{color:var(--red); background:rgba(207,59,54,.08); border-color:rgba(207,59,54,.25)}
+
+.prod .badges{position:absolute; top:11px; left:11px; right:52px; display:flex; flex-wrap:wrap; gap:5px}
+.prod .sale-kind{padding:3px 9px; border-radius:999px; font-size:12.5px; font-weight:800; letter-spacing:.2px; border:1px solid var(--line); background:var(--surface2)}
+.prod .sale-kind.box{color:#3c5a78; background:#eaf1f8; border-color:#c6d8e8}
+.prod .badge{padding:3px 9px; border-radius:999px; font-size:12.5px; font-weight:800; letter-spacing:.2px; border:1px solid transparent}
+.prod .badge-best{color:#8a4a00; background:#ffedd2; border-color:#f3c877}
+.prod.kind-box{border-left:3px solid #b9cee2}
+.prod .code{display:block; color:var(--faint); font-size:12.5px; margin-top:4px; padding-left:6px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.stock-name-cell{display:flex; align-items:center; gap:7px; flex-wrap:wrap}
+.stock-name-cell .sale-kind{position:static; display:inline-flex; align-items:center; padding:3px 8px; border-radius:999px; font-size:12.5px; font-weight:800; line-height:1; border:1px solid var(--line); background:var(--surface2)}
+.stock-name-cell .sale-kind.box{color:#3c5a78; background:#eaf1f8; border-color:#c6d8e8}
+
+/* ---------- CART ---------- */
+.cart{width:388px; flex:none; display:flex; flex-direction:column;
+  background:var(--surface2); border-left:1px solid var(--line)}
+.cart h2{padding:18px 22px 10px; font-family:var(--font); font-size:17.5px; display:flex; align-items:center; gap:8px}
+.cart h2 small{margin-left:auto; color:var(--muted); font-weight:500; font-size:14px; font-family:var(--font)}
+.cust-pick{margin:0 18px 4px; padding:11px 13px; background:var(--surface); border:1px dashed var(--line2); border-radius:13px; display:flex; align-items:center; gap:8px; cursor:pointer; font-size:15px; transition:.15s}
+.cust-pick:hover{border-color:var(--grn2); background:var(--elev)}
+.cust-pick .who{flex:1; font-weight:600}
+.cust-pick .x{color:var(--muted); font-size:20px; line-height:1}
+.items{flex:1; overflow-y:auto; padding:4px 18px}
+.ci{padding:11px 12px; border-radius:14px; background:var(--surface2); border:1px solid var(--line); margin-bottom:8px; transition:.13s}
+.ci:last-child{margin-bottom:0}
+.ci:hover{border-color:var(--line2)}
+.ci-row1{display:flex; align-items:center; gap:8px}
+.ci-row1 .n{flex:1; min-width:0; font-size:15px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.ci-del{flex:none; width:26px; height:26px; display:flex; align-items:center; justify-content:center; border-radius:8px; color:var(--red); background:transparent; transition:.15s}
+.ci-del:hover{background:rgba(214,58,48,.12)}
+.ci-row2{display:flex; align-items:center; gap:10px; margin-top:7px}
+.ci-row2 .p{flex:1; min-width:0; font-size:13px; color:var(--muted)}
+.qty{display:flex; align-items:center; gap:5px; flex:none}
+.qty button{width:26px; height:26px; border-radius:50%; background:var(--surface); border:1px solid var(--line); font-size:16px; font-weight:700; line-height:1; transition:.13s}
+.qty button:hover{background:var(--elev); border-color:var(--line2)}
+.qty span{min-width:22px; text-align:center; font-weight:600; font-family:var(--font)}
+.qty .qin{width:42px; height:26px; text-align:center; font-weight:600; font-family:var(--font); font-size:14.5px; border:1px solid var(--line); border-radius:8px; background:var(--surface); color:var(--txt); -moz-appearance:textfield}
+.qty .qin::-webkit-outer-spin-button,.qty .qin::-webkit-inner-spin-button{-webkit-appearance:none; margin:0}
+.qty .qin:focus{outline:none; border-color:var(--grn); box-shadow:0 0 0 2px rgba(45,138,55,.18)}
+.ci-row2 .lt{flex:none; width:70px; text-align:right; font-weight:700; font-family:var(--font); font-size:15px; color:var(--txt)}
+.empty{color:var(--faint); text-align:center; padding:40px 20px; font-size:15.5px; line-height:1.6}
+.checkout{padding:16px 22px; border-top:1px solid var(--line); background:var(--surface)}
+.row{display:flex; justify-content:space-between; margin-bottom:8px; color:var(--muted); font-size:15.5px}
+.row.total{color:var(--txt); font-size:16.5px; margin:12px 0; align-items:baseline}
+.row.total b{font-family:var(--font); font-size:33px; color:var(--grn)}
+.pay-btn{width:100%; padding:15px; border-radius:14px; font-weight:700; font-size:17.5px; color:var(--grn-ink);
+  background:linear-gradient(180deg,#2f9138,#196b24); box-shadow:var(--glow); transition:.16s}
+.pay-btn:hover{filter:brightness(1.05); transform:translateY(-1px)}
+.pay-btn:disabled{background:var(--chip); color:var(--faint); box-shadow:none; cursor:not-allowed; transform:none}
+
+/* ---------- PANELS ---------- */
+.panel-wrap{flex:1; overflow-y:auto; padding:26px 30px}
+.ph{display:flex; align-items:center; margin-bottom:18px; gap:12px}
+.ph h1{font-family:var(--font); font-size:24px; letter-spacing:.2px}
+.ph .sub{color:var(--muted); font-size:14.5px; margin-top:2px}
+.btn{padding:10px 18px; border-radius:12px; font-weight:600; font-size:15.5px; color:var(--grn-ink);
+  background:linear-gradient(180deg,#2f9138,#196b24); box-shadow:0 8px 18px -10px rgba(47,138,52,.6); transition:.16s}
+.btn:hover{filter:brightness(1.05); transform:translateY(-1px)}
+.btn.ghost{background:var(--surface); color:var(--txt); border:1px solid var(--line); box-shadow:none}
+.btn.ghost:hover{border-color:var(--line2); filter:none}
+.topsearch{margin-left:auto; display:flex; gap:10px; align-items:center}
+.topsearch input{padding:10px 15px; background:var(--surface); border:1px solid var(--line); border-radius:12px; color:var(--txt); font-size:15.5px; width:230px; transition:.18s}
+.topsearch input:focus{outline:none; border-color:var(--grn2); box-shadow:0 0 0 4px rgba(58,157,63,.12)}
+.topsearch select{padding:10px 12px; background:var(--surface); border:1px solid var(--line); border-radius:12px; color:var(--txt); font-size:15.5px; font-family:var(--font); cursor:pointer; transition:.18s}
+.topsearch select:focus{outline:none; border-color:var(--grn2); box-shadow:0 0 0 4px rgba(58,157,63,.12)}
+#lowToggle.on{background:var(--orange); color:#fff; border-color:transparent; box-shadow:none}
+th.sortable{cursor:pointer; user-select:none}
+th.sortable:hover{color:var(--grn2)}
+th.sortable.active{color:var(--grn2)}
+.sarrow{font-size:11px}
+
+/* ---------- TABLES ---------- */
+table{width:100%; border-collapse:separate; border-spacing:0; background:var(--surface); border:1px solid var(--line); border-radius:16px; overflow:hidden; box-shadow:var(--sh1)}
+th,td{padding:13px 18px; text-align:left; font-size:15.5px; border-bottom:1px solid var(--line)}
+th{color:var(--muted); font-weight:600; font-size:13px; letter-spacing:.5px; text-transform:uppercase; background:var(--bg2)}
+tr:last-child td{border-bottom:none}
+tbody tr{transition:.12s}
+tbody tr.clk{cursor:pointer}
+tbody tr.clk:hover{background:rgba(58,157,63,.06)}
+td.num,th.num{text-align:right; font-family:var(--font)}
+.stkbadge{padding:4px 11px; border-radius:9px; font-size:13px; font-weight:600; font-family:var(--font)}
+.stkbadge.ok{background:rgba(58,157,63,.13); color:var(--grn2)}
+.stkbadge.low{background:rgba(207,59,54,.12); color:var(--red)}
+.owe{color:var(--orange); font-weight:700; font-family:var(--font)}
+.owe.zero{color:var(--faint); font-weight:400}
+.mini{padding:6px 11px; border-radius:9px; background:var(--chip); border:1px solid var(--line); font-size:14.5px; font-weight:600; margin-right:6px; transition:.13s}
+.mini:hover{background:var(--elev); border-color:var(--line2)}
+
+/* ---------- HELD CARTS (พักตะกร้า) ---------- */
+.heldcart-list{display:flex;flex-direction:column;gap:10px;max-height:58vh;overflow-y:auto;padding-right:2px}
+.heldcart-row{display:flex;gap:12px;align-items:center;padding:13px;border:1px solid var(--line);border-radius:14px;background:var(--surface2);box-shadow:var(--sh1)}
+.heldcart-main{flex:1;min-width:0}
+.heldcart-title{display:flex;align-items:center;gap:4px;font-size:16px;margin-bottom:4px}
+.heldcart-sub{font-size:13.5px;color:var(--muted);margin-bottom:4px}
+.heldcart-items{font-size:13.5px;color:var(--faint);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.heldcart-actions{display:flex;gap:6px;flex:none}
+.mini.danger{background:rgba(207,59,54,.10);color:var(--red);border-color:rgba(207,59,54,.22)}
+.mini.danger:hover{background:rgba(207,59,54,.16);border-color:rgba(207,59,54,.34)}
+@media(max-width:720px){.heldcart-row{align-items:flex-start;flex-direction:column}.heldcart-actions{width:100%}.heldcart-actions .mini{flex:1}}
+
+/* ---------- CREDIT BILLS IN CUSTOMER DETAIL ---------- */
+.credit-total-line{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px;padding:10px 12px;border-radius:12px;background:rgba(217,119,43,.10);border:1px solid rgba(217,119,43,.22);font-size:14.5px;color:var(--txt)}
+.credit-total-line b{font-size:18px;color:var(--orange);font-family:var(--font)}
+.credit-bill-row{display:grid;grid-template-columns:26px 1fr auto;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
+.credit-bill-row:last-child{border-bottom:none}
+.credit-check{display:flex;align-items:center;justify-content:center}
+.credit-check input{width:17px;height:17px;accent-color:var(--grn)}
+.credit-bill-main{min-width:0}
+.credit-bill-main b{font-family:var(--font);font-size:15.5px}
+
+/* ---------- STAT CARDS ---------- */
+.cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(176px,1fr)); gap:14px; margin-bottom:24px}
+.card{position:relative; padding:18px 20px; border-radius:18px; overflow:hidden;
+  background:var(--surface); border:1px solid var(--line); box-shadow:var(--sh1)}
+.card::before{content:""; position:absolute; inset:0 0 auto 0; height:3px; background:linear-gradient(90deg,var(--grn),transparent)}
+.card .lbl{color:var(--muted); font-size:14px; margin-bottom:7px}
+.card .val{font-family:var(--font); font-size:32px; font-weight:700; letter-spacing:.3px; line-height:1.05}
+.card .val.acc{color:var(--grn)} .card .val.grn{color:var(--gold)} .card .val.cr{color:var(--orange)}
+
+
+/* ---------- REPORT PAGE: จัดระเบียบหน้า รายงาน ---------- */
+.report-page{padding:24px 30px 34px; display:flex; flex-direction:column; gap:18px}
+.report-hero{display:flex; align-items:center; justify-content:space-between; gap:18px; padding:22px 24px; border-radius:22px; background:linear-gradient(135deg,rgba(47,145,56,.12),rgba(255,255,255,.72)); border:1px solid var(--line); box-shadow:var(--sh1)}
+.report-hero .eyebrow{font-size:12px; font-weight:800; letter-spacing:1.8px; color:var(--grn2); margin-bottom:4px}
+.report-hero h1{font-family:var(--font); font-size:30px; line-height:1.1; letter-spacing:.2px}
+.report-hero .sub{color:var(--muted); font-size:15px; margin-top:5px}
+.report-hero-note{max-width:360px; color:var(--muted); font-size:14.5px; line-height:1.5; text-align:right}
+.report-block{background:rgba(255,255,255,.78); border:1px solid var(--line); border-radius:20px; padding:18px; box-shadow:var(--sh1)}
+.report-block-head{display:flex; align-items:flex-start; justify-content:space-between; gap:14px; margin-bottom:14px}
+.report-block-head h2{font-family:var(--font); font-size:18px; line-height:1.25; letter-spacing:.1px}
+.report-block-head p{color:var(--muted); font-size:14px; margin-top:3px; line-height:1.45}
+.report-tools{display:flex; align-items:center; gap:8px; flex-wrap:wrap; justify-content:flex-end}
+.report-control{padding:9px 12px; background:var(--surface); border:1px solid var(--line); border-radius:11px; color:var(--txt); font-family:var(--font); font-size:14.5px; min-height:40px; transition:.18s}
+.report-control:focus{outline:none; border-color:var(--grn2); box-shadow:0 0 0 4px rgba(58,157,63,.12)}
+.report-page .cards{margin-bottom:0}
+.report-kpis{grid-template-columns:repeat(4,minmax(150px,1fr)); gap:12px}
+.report-kpis .card{padding:16px 17px; min-height:110px}
+.report-kpis .card.main{background:linear-gradient(180deg,#fff,#f7fbf3)}
+.report-kpis .card.pay .val{font-size:28px}
+.report-page .card .lbl{font-size:13px}
+.report-page .card .val{font-size:30px}
+.report-split{display:grid; grid-template-columns:minmax(0,1.55fr) minmax(280px,.75fr); gap:18px; align-items:start}
+.report-split.wide-left{grid-template-columns:minmax(420px,1.05fr) minmax(420px,.95fr)}
+.month-report{margin-top:2px}
+.month-report[style*="block"] + .month-empty{display:none}
+.month-label{font-size:16px; font-weight:800; color:var(--grn2); margin:2px 0 12px}
+.month-kpis{grid-template-columns:repeat(4,minmax(126px,1fr)); gap:10px}
+.month-kpis .card{padding:14px 15px; border-radius:15px}
+.month-kpis .card .val{font-size:24px}
+.month-empty{padding:26px 16px; border:1px dashed var(--line2); border-radius:16px; background:var(--surface2)}
+.report-backup{height:100%}
+.backup-actions{display:flex; flex-direction:column; gap:10px}
+.backup-actions .btn{width:100%; justify-content:center}
+.report-table-wrap{overflow:auto; border-radius:16px}
+.report-table-wrap table{margin:0; min-width:680px}
+.compact-table{max-height:420px}
+.compact-table table{min-width:620px}
+.search-tool .report-control{width:260px}
+@media(max-width:1180px){
+  .report-kpis{grid-template-columns:repeat(2,minmax(160px,1fr))}
+  .report-split,.report-split.wide-left{grid-template-columns:1fr}
+  .report-hero{align-items:flex-start; flex-direction:column}
+  .report-hero-note{text-align:left; max-width:none}
+}
+@media(max-width:720px){
+  .report-page{padding:18px; gap:14px}
+  .report-block{padding:14px; border-radius:17px}
+  .report-block-head{flex-direction:column; align-items:stretch}
+  .report-tools{justify-content:flex-start}
+  .report-tools .btn,.report-control{width:100%}
+  .report-kpis,.month-kpis{grid-template-columns:1fr}
+  .search-tool .report-control{width:100%}
+}
+
+/* ---------- OVERLAY / MODAL ---------- */
+.overlay{position:fixed; inset:0; background:rgba(28,42,32,.34); backdrop-filter:blur(4px); display:none; align-items:center; justify-content:center; z-index:50; padding:20px}
+.overlay.show{display:flex; animation:fade .2s ease both}
+.modal{width:100%; max-width:444px; padding:26px; max-height:92vh; overflow-y:auto; border-radius:22px;
+  background:var(--surface); border:1px solid var(--line2); box-shadow:var(--sh2);
+  animation:pop .32s cubic-bezier(.2,.9,.3,1.2) both}
+.modal.wide{max-width:564px}
+.modal h3{font-family:var(--font); font-size:22px; margin-bottom:4px}
+.modal .msub{color:var(--muted); font-size:14.5px; margin-bottom:18px}
+.field{margin-bottom:14px}
+.field label{display:block; font-size:14px; color:var(--muted); margin-bottom:7px; font-weight:500}
+.field input,.field select{width:100%; padding:12px 14px; background:var(--bg2); border:1px solid var(--line); border-radius:12px; color:var(--txt); font-size:16.5px; transition:.18s}
+.field input:focus,.field select:focus{outline:none; border-color:var(--grn2); box-shadow:0 0 0 4px rgba(58,157,63,.14)}
+.grid2{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+.big-amt{text-align:center; padding:16px; background:radial-gradient(circle at 50% 0%,rgba(58,157,63,.10),transparent 70%),var(--bg2); border:1px solid var(--line); border-radius:16px; margin-bottom:16px}
+.big-amt .l{color:var(--muted); font-size:14.5px}
+.big-amt .v{font-family:var(--font); font-size:44px; color:var(--grn2); font-weight:700}
+.paytype{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:16px}
+.paytype button{padding:14px 10px; border-radius:13px; background:var(--bg2); border:1px solid var(--line); font-weight:600; font-size:15px; color:var(--muted); transition:.15s}
+.paytype button:hover{border-color:var(--line2); color:var(--txt)}
+.paytype button.sel{border-color:var(--grn2); color:var(--grn2); background:rgba(58,157,63,.10); box-shadow:0 0 0 3px rgba(58,157,63,.12)}
+.paytype button.sel.cr{border-color:var(--orange); color:var(--orange); background:rgba(217,119,43,.10); box-shadow:0 0 0 3px rgba(217,119,43,.12)}
+.quickpay{display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-bottom:14px}
+.quickpay button{padding:11px 0; background:var(--chip); border:1px solid var(--line); border-radius:10px; font-weight:600; font-size:15px; transition:.13s}
+.quickpay button:hover{background:var(--elev); border-color:var(--line2)}
+.change-line{display:flex; justify-content:space-between; align-items:center; padding:13px 15px; background:rgba(58,157,63,.10); border:1px solid rgba(58,157,63,.25); border-radius:12px; margin-bottom:16px; font-weight:600}
+.change-line.neg{background:rgba(207,59,54,.09); border-color:rgba(207,59,54,.26)}
+.change-line b{font-family:var(--font); font-size:23px; color:var(--grn2)}
+.change-line.neg b{color:var(--red)}
+.credit-note{padding:13px 15px; background:rgba(217,119,43,.09); border:1px solid rgba(217,119,43,.28); border-radius:12px; margin-bottom:16px; font-size:15px; color:var(--orange); line-height:1.55}
+.modal-actions{display:flex; gap:10px}
+.modal-actions button{flex:1; padding:13px; border-radius:13px; font-weight:700; font-size:16.5px}
+.picklist{max-height:300px; overflow-y:auto; margin-bottom:6px}
+.pickrow{padding:12px 14px; border-radius:12px; background:var(--bg2); border:1px solid var(--line); margin-bottom:8px; cursor:pointer; display:flex; align-items:center; transition:.13s}
+.pickrow:hover{background:var(--elev); border-color:var(--grn2)}
+.pickrow .pn{flex:1; font-weight:600}
+.pickrow .pn small{display:block; color:var(--muted); font-weight:400; font-size:13px; margin-top:2px}
+.hist{margin-top:6px}
+.histrow{display:flex; justify-content:space-between; align-items:center; padding:11px 0; border-bottom:1px solid var(--line); font-size:15px}
+.histrow .hl{color:var(--muted); font-size:13px; margin-top:2px}
+.tag{font-size:12.5px; padding:2px 9px; border-radius:7px; font-weight:700; margin-left:7px; letter-spacing:.3px}
+.tag.cash{background:rgba(58,157,63,.15); color:var(--grn2)} .tag.cr{background:rgba(217,119,43,.15); color:var(--orange)}
+.tag.wait{background:rgba(217,119,43,.15); color:var(--orange)} .tag.part{background:rgba(47,114,196,.15); color:var(--blue)}
+
+/* ---------- รับสินค้า (fulfillment) ---------- */
+.fulfill{display:flex; align-items:center; gap:12px; margin-bottom:16px; padding:11px 14px; background:var(--bg2); border:1px solid var(--line); border-radius:13px}
+.fulfill .fl-label{font-size:14.5px; color:var(--muted); font-weight:600}
+.fulfill .fl-opts{margin-left:auto; display:flex; gap:8px}
+.fulfill .fl-opts button{padding:9px 16px; border-radius:10px; background:var(--surface); border:1px solid var(--line); font-weight:600; font-size:15px; color:var(--muted); transition:.15s}
+.fulfill .fl-opts button:hover{border-color:var(--line2); color:var(--txt)}
+.fulfill .fl-opts button.sel{border-color:var(--orange); color:var(--orange); background:rgba(217,119,43,.10)}
+.pu-qty{width:66px; padding:7px 9px; text-align:right; background:var(--bg2); border:1px solid var(--line); border-radius:9px; color:var(--txt); font-family:var(--font); font-size:15.5px}
+.pu-qty:focus{outline:none; border-color:var(--grn2); box-shadow:0 0 0 3px rgba(58,157,63,.14)}
+
+/* ---------- PromptPay QR ---------- */
+.qr-wrap{text-align:center; padding:18px; background:#fff; border:1px solid var(--line); border-radius:16px; margin-bottom:14px; box-shadow:var(--sh1)}
+.qr-wrap img{width:208px; height:208px; display:block; margin:0 auto 10px; border-radius:6px}
+.qr-amt{font-family:var(--font); font-weight:700; font-size:25.5px; color:#0a7d2c}
+.qr-hint{color:#666; font-size:13px; margin-top:5px}
+.card-note{padding:13px 15px; background:rgba(47,114,196,.08); border:1px solid rgba(47,114,196,.26); border-radius:12px; margin-bottom:14px; font-size:15px; color:var(--blue); line-height:1.55}
+
+/* ---------- RECEIPT (ทางการ) ---------- */
+.receipt-modal{display:flex; flex-direction:column; align-items:center; gap:16px; max-height:calc(100vh - 40px)}
+.receipt-paper{background:#fff; border-radius:4px; box-shadow:0 20px 44px -16px rgba(28,55,32,.45); flex:1 1 auto; min-height:0; overflow-y:auto}
+#receipt{display:block}
+.rcpt{font-family:var(--font); color:#111; background:#fff; width:300px; margin:0 auto; padding:22px 20px 18px; font-size:15px; line-height:1.55}
+.rcpt .rhead{text-align:center}
+.rcpt .rhead .logo-mark{width:34px; height:34px; color:var(--grn2); display:block; margin:0 auto 6px}
+.rcpt .shop{font-weight:700; font-size:20px; letter-spacing:.5px}
+.rcpt .ctr{text-align:center; font-size:13px; color:#333; margin-top:2px}
+.rcpt .rtitle{text-align:center; font-weight:700; font-size:15.5px; letter-spacing:4px; padding:5px 0; border-top:1.5px solid #222; border-bottom:1.5px solid #222; margin:10px 0}
+.rcpt .rline{border-top:1px solid #555; margin:9px 0}
+.rcpt .rline.thin{border-top:1px dashed #aaa}
+.rcpt .rrow{display:flex; justify-content:space-between; font-size:14px; margin:2px 0}
+.rcpt .rrow span:last-child{font-family:var(--font)}
+.rcpt .rtitle.tax-title{letter-spacing:.5px; font-size:15px}
+.rcpt .rbuyer{font-size:14px; margin:4px 0; text-align:left}
+.rcpt .rbuyer .line{display:flex; align-items:flex-start; justify-content:flex-start; gap:4px; margin:2px 0}
+.rcpt .rbuyer .label{white-space:nowrap; font-weight:700}
+.rcpt .rbuyer .val{flex:1; text-align:left; font-family:var(--font); overflow-wrap:anywhere}
+.rcpt .ritems-head{display:flex; justify-content:space-between; font-size:13px; color:#555; font-weight:600; margin-bottom:4px}
+.rcpt .ritem{margin:15px 0}
+.rcpt .ritem .top{display:flex; justify-content:space-between; gap:10px}
+.rcpt .ritem .top span:first-child{font-weight:700}
+.rcpt .ritem .top span:last-child{font-family:var(--font); font-weight:600; white-space:nowrap}
+.rcpt .ritem .sub{color:#333; font-size:13px; font-family:var(--font); font-weight:400}
+.rcpt .rtotal{display:flex; justify-content:space-between; align-items:baseline; font-weight:700; font-size:16.5px; margin:4px 0 8px}
+.rcpt .rtotal b{font-family:var(--font); font-size:21px}
+.rcpt .rfoot{text-align:center; font-size:14px; color:#333; margin-top:12px}
+
+.rcpt .receipt-qr{text-align:center; margin:10px 0 6px; page-break-inside:avoid}
+.rcpt .receipt-qr .qr-title{font-weight:700; font-size:14px; margin-bottom:4px}
+.rcpt .receipt-qr img{width:132px; height:132px; display:block; margin:0 auto 4px; image-rendering:pixelated}
+.rcpt .receipt-qr .qr-amount{font-size:13px; font-weight:700}
+.receipt-actions{display:flex; gap:10px; width:300px; flex:0 0 auto}
+.receipt-actions button{flex:1}
+
+/* ---------- TOAST ---------- */
+.toast{position:fixed; bottom:26px; left:50%; transform:translateX(-50%) translateY(24px); z-index:60; pointer-events:none;
+  padding:13px 26px; border-radius:14px; font-weight:700; color:#fff; opacity:0; transition:.28s cubic-bezier(.2,.9,.3,1.2);
+  background:linear-gradient(180deg,#2f9138,#196b24); box-shadow:var(--sh2)}
+.toast.show{opacity:1; transform:translateX(-50%) translateY(0)}
+.toast.err{background:linear-gradient(180deg,#e0605b,#cf3b36); color:#fff}
+
+/* ---------- ANIMATIONS ---------- */
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@keyframes pop{from{opacity:0; transform:translateY(10px) scale(.98)}to{opacity:1; transform:none}}
+
+
+/* ============================================================
+   MODERN FUNCTION UI POLISH — ปรับปุ่ม/ฟอร์ม/โมดอลให้ใช้งานง่ายขึ้น
+   ============================================================ */
+@media screen {
+  button{letter-spacing:.05px}
+  .btn,.mini,.pay-btn,.login button,.modal-actions button,.quickpay button,.paytype button,.fulfill .fl-opts button{
+    -webkit-tap-highlight-color:transparent;
+  }
+
+  .btn{
+    min-height:42px; display:inline-flex; align-items:center; justify-content:center; gap:7px;
+    padding:10px 18px; border-radius:14px; font-weight:700;
+    background:linear-gradient(180deg,#36a342,#1e762a);
+    box-shadow:0 12px 24px -14px rgba(31,110,40,.75);
+    border:1px solid rgba(255,255,255,.18);
+  }
+  .btn:hover{filter:brightness(1.045); transform:translateY(-1px); box-shadow:0 16px 30px -16px rgba(31,110,40,.85)}
+  .btn:active,.mini:active,.pay-btn:active,.paytype button:active,.quickpay button:active{transform:translateY(0) scale(.99)}
+  .btn.ghost{
+    color:var(--txt); background:linear-gradient(180deg,#fff,#f5f9f1);
+    border:1px solid var(--line2); box-shadow:0 6px 16px -14px rgba(28,55,32,.45);
+  }
+  .btn.ghost:hover{background:linear-gradient(180deg,#fff,#edf5e7); border-color:rgba(31,110,40,.24); color:var(--grn2); box-shadow:0 10px 22px -16px rgba(28,55,32,.50)}
+  .btn:disabled,.pay-btn:disabled{filter:none; transform:none; box-shadow:none}
+
+  .mini{
+    min-height:34px; display:inline-flex; align-items:center; justify-content:center; gap:5px;
+    padding:7px 12px; border-radius:12px; font-size:14px; font-weight:700;
+    background:linear-gradient(180deg,#fff,#f4f8ef); border:1px solid var(--line2);
+    box-shadow:0 5px 12px -12px rgba(28,55,32,.48);
+  }
+  .mini:hover{background:#fff; color:var(--grn2); border-color:rgba(31,110,40,.28); transform:translateY(-1px)}
+
+  .pay-btn{
+    min-height:52px; display:flex; align-items:center; justify-content:center;
+    border-radius:16px; font-size:18px; letter-spacing:.1px;
+    background:linear-gradient(180deg,#36a342,#1c7028);
+    box-shadow:0 16px 30px -16px rgba(31,110,40,.9);
+  }
+  .pay-btn:hover{box-shadow:0 18px 34px -16px rgba(31,110,40,.95)}
+  #confirmBtn{min-height:48px}
+  #saVoidBtn{background:linear-gradient(180deg,#df5853,#bf302b); box-shadow:0 14px 26px -16px rgba(207,59,54,.90)}
+
+  /* ปุ่มพักตะกร้า / ตะกร้าที่พักไว้ / ยกเลิกรายการ ที่สร้างจาก JS */
+  #heldCartActions{gap:9px !important}
+  #holdCartBtn,#heldCartsBtn,#clearCartBtn{
+    min-height:44px !important; border-radius:14px !important; font-weight:800 !important;
+    box-shadow:0 8px 18px -16px rgba(28,55,32,.42) !important;
+    transition:transform .15s, filter .15s, box-shadow .15s, border-color .15s !important;
+  }
+  #holdCartBtn{background:linear-gradient(180deg,#fff9e8,#fff3cf) !important; border-color:#ecd18a !important; color:#805400 !important}
+  #heldCartsBtn{background:linear-gradient(180deg,#eef9ef,#dff1df) !important; border-color:#b8dbb8 !important; color:#1f6e28 !important}
+  #clearCartBtn{background:linear-gradient(180deg,#fff3f2,#ffe6e4) !important; border-color:#f4c4bf !important; color:#bf302b !important}
+  #holdCartBtn:hover,#heldCartsBtn:hover,#clearCartBtn:hover{transform:translateY(-1px); filter:brightness(1.02); box-shadow:0 14px 25px -18px rgba(28,55,32,.55) !important}
+
+  /* ฟอร์มและช่องค้นหา */
+  input,select,textarea{border-radius:13px}
+  .field input,.field select,.field textarea,.topsearch input,.topsearch select,.searchbar input,.tidy-tools input,.tidy-tools select{
+    background:linear-gradient(180deg,#fff,#f8fbf4);
+    border-color:var(--line2);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.75);
+  }
+  .field input:focus,.field select:focus,.field textarea:focus,.topsearch input:focus,.topsearch select:focus,.searchbar input:focus,.tidy-tools input:focus,.tidy-tools select:focus{
+    border-color:rgba(31,110,40,.55);
+    box-shadow:0 0 0 4px rgba(58,157,63,.13), inset 0 1px 0 rgba(255,255,255,.75);
+  }
+
+  /* โมดอล/หน้าต่างฟังก์ชัน */
+  .overlay{background:rgba(23,40,28,.40); backdrop-filter:blur(8px)}
+  .modal{
+    border-radius:26px;
+    background:
+      radial-gradient(420px 180px at 50% -40px,rgba(67,154,67,.13),transparent 70%),
+      linear-gradient(180deg,#fff,#fbfdf8);
+    border:1px solid rgba(34,64,38,.16);
+    box-shadow:0 34px 80px -36px rgba(18,45,24,.55);
+  }
+  .modal h3{font-size:24px; letter-spacing:.1px}
+  .modal .msub{color:var(--muted); line-height:1.55}
+  .modal-actions{gap:11px; padding-top:5px}
+  .modal-actions button{border-radius:15px; min-height:47px}
+
+  /* กล่องชำระเงินและตัวเลือกต่าง ๆ */
+  .big-amt{
+    border-radius:20px;
+    background:
+      radial-gradient(circle at 50% -10%,rgba(58,157,63,.16),transparent 68%),
+      linear-gradient(180deg,#f7fbf3,#eef6e9);
+    border-color:rgba(31,110,40,.16);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.82);
+  }
+  .big-amt .v{font-size:46px}
+  .paytype{
+    gap:8px; padding:7px; border:1px solid var(--line); border-radius:18px;
+    background:rgba(237,243,231,.72);
+  }
+  .paytype button{
+    min-height:52px; border-radius:14px; background:rgba(255,255,255,.72);
+    border-color:transparent; color:#607366; display:flex; align-items:center; justify-content:center;
+  }
+  .paytype button:hover{background:#fff; border-color:var(--line2); color:var(--txt); transform:translateY(-1px)}
+  .paytype button.sel{
+    background:#fff; color:var(--grn2); border-color:rgba(31,110,40,.22);
+    box-shadow:0 8px 20px -16px rgba(31,110,40,.72),0 0 0 3px rgba(58,157,63,.10);
+  }
+  .paytype button.sel.cr{
+    background:#fffaf3; color:var(--orange); border-color:rgba(217,119,43,.26);
+    box-shadow:0 8px 20px -16px rgba(217,119,43,.72),0 0 0 3px rgba(217,119,43,.10);
+  }
+  .fulfill{border-radius:17px; background:linear-gradient(180deg,#f7fbf3,#eef5e8)}
+  .fulfill .fl-opts button{border-radius:13px; min-height:40px}
+  .fulfill .fl-opts button.sel{background:#fff; box-shadow:0 0 0 3px rgba(217,119,43,.10)}
+  .quickpay button{
+    border-radius:13px; background:linear-gradient(180deg,#fff,#f2f7ed);
+    border-color:var(--line2); font-weight:800;
+  }
+  .quickpay button:hover{background:#fff; color:var(--grn2); border-color:rgba(31,110,40,.25); transform:translateY(-1px)}
+  .change-line,.credit-note,.card-note{border-radius:16px}
+  .qr-wrap{border-radius:18px}
+
+  /* การ์ดสินค้า/รายการ/ตาราง ให้ดูทันสมัยขึ้นแต่ยังเป็นเลย์เอาต์เดิม */
+  .prod{
+    border-radius:20px;
+    box-shadow:0 8px 18px -18px rgba(28,55,32,.55),0 1px 2px rgba(28,50,32,.05);
+  }
+  .prod:hover{transform:translateY(-3px); box-shadow:0 18px 34px -24px rgba(28,55,32,.55)}
+  .prod .stk{border-radius:999px; font-weight:800; box-shadow:0 1px 0 rgba(255,255,255,.65) inset}
+  .prod .pr{letter-spacing:.05px}
+  .cart-card,.page-block,.report-block,.table-wrap,table{
+    box-shadow:0 12px 26px -24px rgba(28,55,32,.50);
+  }
+  tbody tr:hover{background:rgba(58,157,63,.045)}
+  th{font-weight:800}
+  .tag,.stkbadge,.owe{
+    border-radius:999px;
+  }
+  .pickrow,.heldcart-row,.histrow,.credit-bill-row{
+    border-radius:16px;
+    transition:transform .14s, border-color .14s, background .14s, box-shadow .14s;
+  }
+  .pickrow:hover,.heldcart-row:hover,.credit-bill-row:hover{
+    transform:translateY(-1px);
+    box-shadow:0 12px 24px -22px rgba(28,55,32,.46);
+  }
+
+  .toast{
+    border-radius:18px; box-shadow:0 22px 52px -26px rgba(28,55,32,.62);
+    padding:14px 28px;
+  }
+}
+
+
+/* ============================================================
+   @MEDIA PRINT: แก้ปัญหาเครื่องปริ้นความร้อน พิมพ์ฟอนต์เบลอ
+   ============================================================ */
+@media print{
+  body *{visibility:hidden}
+  #receipt,#receipt *{visibility:visible}
+  #receipt{position:absolute; inset:0; display:block}
+  
+  .rcpt{width:80mm; margin:0; padding:2mm 3mm 4mm; font-size:15.5px}
+
+  .rcpt, .rcpt *{
+    color:#000 !important;
+    font-family:var(--font) !important;
+    font-weight:700 !important;
+    -webkit-print-color-adjust:exact;
+    print-color-adjust:exact;
+    text-rendering:crispEdges !important;
+    -webkit-font-smoothing:none !important;
+    font-smooth:never !important;
+    -webkit-text-stroke:0.3px #000 !important;
+  }
+
+  /* ที่อยู่/เบอร์/หัวตาราง/ท้ายบิล */
+  .rcpt .ctr, .rcpt .ritems-head, .rcpt .rfoot, .rcpt .rsign{font-size:13px !important}
+
+  /* แถวข้อมูล (บิล/วันที่/ลูกค้า/ชำระ) */
+  .rcpt .rrow{font-size:14px !important}
+
+  /* หัวใบเสร็จ */
+  .rcpt .rtitle{
+    font-size:15px !important;
+    letter-spacing:2px !important;
+    border-top:1px solid #000 !important;
+    border-bottom:1px solid #000 !important;
+    padding:6px 0 !important;
+  }
+
+  .rcpt .rtitle.tax-title{
+    font-size:14px !important;
+    letter-spacing:0 !important;
+  }
+  .rcpt .rbuyer{font-size:14px !important; text-align:left !important}
+  .rcpt .rbuyer .line{display:flex !important; justify-content:flex-start !important; align-items:flex-start !important; gap:4px !important}
+  .rcpt .rbuyer .label{white-space:nowrap !important}
+  .rcpt .rbuyer .val{text-align:left !important; flex:1 !important}
+
+  /* ยอดรวม */
+  .rcpt .rtotal{font-size:16px !important}
+  .rcpt .rtotal b{font-size:22px !important}
+
+  /* เส้นคั่น */
+  .rcpt .rline{border:none !important; border-top:0.5px solid #000 !important; margin:10px 0 !important}
+  .rcpt .rline.thin{border:none !important; border-top:0.5px dashed #000 !important}
+  .rcpt .rstatus{border:1px dashed #000 !important}
+
+  /* ชื่อสินค้าหลัก — หนาสุด */
+  .rcpt .ritem .top span:first-child{
+    font-weight:700 !important;
+    font-size:15px !important;
+    -webkit-text-stroke:0.35px #000 !important;
+  }
+
+  /* ราคา×จำนวน — บางกว่าชื่อสินค้า อ่านออกแต่ไม่แย่งความสำคัญ */
+  .rcpt .ritem .sub{
+    color:#000 !important;
+    font-size:13px !important;
+    font-weight:500 !important;
+    -webkit-text-stroke:0.15px #000 !important;
+  }
+
+
+  .rcpt .receipt-qr{
+    text-align:center !important;
+    margin:10px 0 6px !important;
+    page-break-inside:avoid !important;
+  }
+  .rcpt .receipt-qr img{
+    width:35mm !important;
+    height:35mm !important;
+    display:block !important;
+    margin:0 auto 4px !important;
+    -webkit-text-stroke:0 !important;
+    image-rendering:pixelated !important;
+  }
+  .rcpt .receipt-qr .qr-title, .rcpt .receipt-qr .qr-amount{
+    font-size:13px !important;
+    font-weight:700 !important;
+  }
+
+  @page{size:80mm auto; margin:0}
+}
+
+/* ---------- รอรับสินค้า: input + ใบส่งมอบ ---------- */
+.pu-inp{width:74px; padding:8px 10px; background:var(--bg2); border:1px solid var(--line); border-radius:9px; color:var(--txt); font-size:15.5px; text-align:right; font-family:var(--font)}
+.pu-inp:focus{outline:none; border-color:var(--grn2); box-shadow:0 0 0 3px rgba(58,157,63,.12)}
+.pu-inp:disabled{opacity:.4}
+.rcpt .rsign{margin-top:8px; font-size:13px}
+.rcpt .rsign div{margin-top:16px}
+
+/* ---------- ยกเลิกบิล / รีปริ้น ---------- */
+.tag.void{background:rgba(207,59,54,.15); color:var(--red)}
+#saVoidBtn{background:linear-gradient(180deg,#e0605b,#cf3b36); color:#fff}
+.rcpt .rstatus{text-align:center; font-weight:700; font-size:14.5px; margin:8px 0; padding:5px; border:1.5px dashed var(--red); color:var(--red)}
+/* ============================================================
+   GLOBAL PAGE CLEANUP — จัดระเบียบทุกหน้าหลักให้อ่านง่ายเหมือนหน้า รายงาน
+   ============================================================ */
+.page-hero{
+  display:flex; align-items:center; justify-content:space-between; gap:18px;
+  padding:22px 24px; border-radius:22px;
+  background:linear-gradient(135deg,rgba(47,145,56,.12),rgba(255,255,255,.74));
+  border:1px solid var(--line); box-shadow:var(--sh1);
+}
+.page-hero .eyebrow{
+  font-size:12px; font-weight:800; letter-spacing:1.8px; color:var(--grn2); margin-bottom:4px;
+}
+.page-hero h1{font-family:var(--font); font-size:30px; line-height:1.1; letter-spacing:.2px}
+.page-hero .sub{color:var(--muted); font-size:15px; margin-top:5px; line-height:1.45}
+.page-hero-note{max-width:380px; color:var(--muted); font-size:14.5px; line-height:1.5; text-align:right}
+.page-block{
+  background:rgba(255,255,255,.80); border:1px solid var(--line); border-radius:20px;
+  padding:18px; box-shadow:var(--sh1);
+}
+.block-head{display:flex; align-items:flex-start; justify-content:space-between; gap:14px; margin-bottom:14px}
+.block-head.compact{margin-bottom:10px}
+.block-head h2{font-family:var(--font); font-size:18px; line-height:1.25; letter-spacing:.1px}
+.block-head p{color:var(--muted); font-size:14px; margin-top:3px; line-height:1.45}
+.work-page{padding:24px 30px 34px; display:flex; flex-direction:column; gap:18px}
+.table-wrap{overflow:auto; border-radius:16px; border:1px solid var(--line); background:var(--surface)}
+.table-wrap table{border:none; border-radius:0; box-shadow:none; margin:0; min-width:720px}
+.table-wrap th{position:sticky; top:0; z-index:1}
+.tidy-tools{display:flex; align-items:center; gap:8px; flex-wrap:wrap; justify-content:flex-end; margin-left:0}
+.tidy-tools input,.tidy-tools select{
+  min-height:40px; padding:9px 12px; background:var(--surface); border:1px solid var(--line);
+  border-radius:11px; color:var(--txt); font-size:14.5px; transition:.18s;
+}
+.tidy-tools input:focus,.tidy-tools select:focus{outline:none; border-color:var(--grn2); box-shadow:0 0 0 4px rgba(58,157,63,.12)}
+.stock-tools input{width:220px}.stock-tools select{max-width:180px}.stock-table table{min-width:980px}
+
+/* ---------- Sales page refinement ---------- */
+.sales-layout{background:transparent}
+.sales-page{padding:24px; gap:16px; overflow-y:auto}
+.sales-page .page-hero{flex:none}
+.sales-toolbar{flex:none}
+.sales-toolbar .searchbar{margin-bottom:12px}
+.sales-toolbar .searchbar input{box-shadow:none; background:var(--surface2)}
+.product-section{flex:none; display:flex; flex-direction:column; padding:18px}
+.product-head{flex:none}
+.product-section .grid{
+  flex:none;
+  align-content:start;
+  grid-template-columns:repeat(auto-fill,minmax(196px,1fr));
+  gap:14px;
+}
+.sales-page .prod{
+  min-height:138px;
+  padding:36px 15px 15px;
+}
+.sales-page .prod .nm{
+  font-size:15.8px;
+  line-height:1.38;
+  overflow-wrap:anywhere;
+  word-break:break-word;
+}
+.sales-page .prod .pr{font-size:20.5px; line-height:1.15}
+.sales-page .prod .stk{top:10px; right:10px}
+.cart-card{
+  margin:24px 24px 24px 0; width:398px; border:1px solid var(--line); border-radius:22px;
+  background:rgba(255,255,255,.88); box-shadow:var(--sh2); overflow:hidden;
+}
+.cart-title{display:flex; align-items:center; justify-content:space-between; gap:10px; padding:18px 20px 10px; flex:none}
+.cart-title h2{padding:0; margin:0; font-size:18px; display:block}
+.cart-title small{color:var(--grn2); font-weight:800; font-size:13px; font-family:var(--font); background:var(--elev); border:1px solid rgba(31,110,40,.18); padding:3px 10px; border-radius:999px}
+.cart-card .cust-pick{margin:0 18px 8px; background:var(--surface2)}
+.cart-card .items{padding:4px 18px 10px}
+.cart-card .checkout{border-top:1px solid var(--line); background:linear-gradient(180deg,#fff,#fbfdf8)}
+.cart-card .row.total{padding:12px 14px; margin:10px 0 12px; background:rgba(47,145,56,.08); border:1px solid rgba(47,145,56,.16); border-radius:14px}
+.cart-card .pay-btn{border-radius:14px}
+
+/* ---------- ทางลัดไปหน้าอื่น (ท้ายหน้าขายสินค้า) ---------- */
+.quick-links{display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:12px; flex:none}
+.quick-links button{
+  display:flex; align-items:center; gap:12px; text-align:left; padding:14px 16px; border-radius:16px;
+  background:var(--surface); border:1px solid var(--line); box-shadow:var(--sh1); transition:.15s;
+}
+.quick-links button:hover{transform:translateY(-2px); border-color:var(--line2); box-shadow:var(--sh2)}
+.quick-links .ql-ic{font-size:22px; flex:none}
+.quick-links .ql-tx{display:flex; flex-direction:column; gap:2px; min-width:0}
+.quick-links .ql-tx b{font-size:15px; font-weight:700}
+.quick-links .ql-tx small{font-size:12.5px; color:var(--muted)}
+
+/* ---------- แถบสถานะท้ายหน้าจอ ---------- */
+.app-foot{
+  flex:none; display:flex; align-items:center; gap:12px; padding:9px 22px;
+  background:var(--grnDark,#16531f); background:linear-gradient(100deg,#1c6e27,#123f19);
+  color:rgba(255,255,255,.82); font-size:13px;
+}
+.app-foot .foot-shop{display:flex; align-items:center; gap:7px; color:#fff; font-weight:700}
+.app-foot .foot-shop .logo-mark{width:16px; height:16px; flex:none}
+.app-foot .foot-sep{opacity:.4}
+.app-foot .foot-gap{flex:1}
+.app-foot .foot-clock{color:rgba(255,255,255,.82)}
+.app-foot .foot-online{display:flex; align-items:center; gap:6px; font-weight:700; color:#bdeec2}
+.app-foot .foot-online .dot{width:8px; height:8px; border-radius:50%; background:#4ade80; box-shadow:0 0 0 3px rgba(74,222,128,.25)}
+.app-foot .foot-online.off .dot{background:var(--red); box-shadow:0 0 0 3px rgba(214,58,48,.25)}
+.app-foot .foot-online.off{color:#ffc9c4}
+@media(max-width:900px){.app-foot{flex-wrap:wrap; row-gap:4px}}
+
+/* ---------- Customer / pickup / stock table polish ---------- */
+#view-customer tbody tr,#view-pickup tbody tr,#view-stock tbody tr{transition:background .12s, transform .12s}
+#view-customer tbody tr:hover,#view-pickup tbody tr:hover,#view-stock tbody tr:hover{background:rgba(58,157,63,.045)}
+#view-stock .mini,#view-customer .mini,#view-pickup .mini{margin-top:2px; margin-bottom:2px}
+
+/* ---------- Modal cleanup ให้ฟอร์มทุกหน้าดูเป็นชุดเดียวกัน ---------- */
+.modal{border-radius:24px; padding:26px 28px; background:linear-gradient(180deg,#fff,#fbfdf8)}
+.modal h3{font-size:23px; line-height:1.2}
+.modal .msub{line-height:1.5}
+.modal .field input,.modal .field select,.modal .field textarea{
+  background:#f5f8f1; border-color:var(--line); min-height:42px;
+}
+.modal .field input:focus,.modal .field select:focus,.modal .field textarea:focus{
+  outline:none; border-color:var(--grn2); box-shadow:0 0 0 4px rgba(58,157,63,.12);
+}
+.modal-actions{padding-top:4px}
+.modal-actions .btn,.modal-actions .btn.ghost{min-height:44px}
+.modal.wide{max-width:min(860px,calc(100vw - 36px))}
+.histrow{border-radius:12px; padding:11px 12px; border-bottom:none; margin-bottom:6px; background:var(--surface2); border:1px solid var(--line)}
+.pickrow{box-shadow:var(--sh1)}
+
+@media(max-width:1180px){
+  .sales-layout{flex-direction:column; overflow:auto}
+  .sales-page{overflow:visible; flex:none}
+  .cart-card{width:auto; margin:0 24px 24px; min-height:420px; flex:none}
+  .page-hero{align-items:flex-start; flex-direction:column}
+  .page-hero-note{text-align:left; max-width:none}
+  .block-head{flex-direction:column; align-items:stretch}
+  .tidy-tools{justify-content:flex-start}
+}
+@media(max-width:720px){
+  .work-page,.sales-page{padding:18px; gap:14px}
+  .page-hero{padding:18px; border-radius:18px}
+  .page-hero h1{font-size:26px}
+  .page-block{padding:14px; border-radius:17px}
+  .tidy-tools .btn,.tidy-tools input,.tidy-tools select{width:100%}
+  .cart-card{margin:0 18px 18px; border-radius:18px}
+  .product-section .grid{grid-template-columns:repeat(auto-fill,minmax(170px,1fr)); gap:12px}
+  .sales-page .prod{min-height:132px}
+  .stock-tools input,.stock-tools select{width:100%; max-width:none}
+}
